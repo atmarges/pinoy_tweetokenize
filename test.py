@@ -10,10 +10,12 @@ tweets = [
 tokenizer = Tokenizer()
 
 # Test tokenize() method
-tokens = ', '.join(tokenizer.tokenize(tweets[1]))
-print(tokens.encode('utf-8'))  # Can't print on console unless encoded to utf-8
+tokens = tokenizer.tokenize(tweets[1])
+output = ', '.join(tokens)
+print(output.encode('utf-8'))  # Can't print on console unless encoded to utf-8
 
 # Test tokenize_set() method
-tokens = [', '.join(i) for i in tokenizer.tokenize_set(tweets)]
-for i in tokens:
+tokens_set = tokenizer.tokenize_set(tweets)
+output = [', '.join(i) for i in tokens_set]
+for i in output:
     print(i.encode('utf-8'))
