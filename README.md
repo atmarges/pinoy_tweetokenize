@@ -1,4 +1,4 @@
-# pinoy_tweetokenize
+# Pinoyt Tweetokenize
 A modified version of [tweetokenize](https://github.com/jaredks/tweetokenize) designed for tokenizing Philippine tweets.
 
 Modifications made includes:
