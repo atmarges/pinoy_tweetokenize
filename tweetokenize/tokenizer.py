@@ -297,7 +297,7 @@ class Tokenizer(object):
             return word.lower()
         return word
 
-    def tokenize(self, message):
+    def tokenize(self, message, strict=False):
         """
         Tokenize the given string into a list of strings representing the 
         constituent words of the message.
@@ -309,7 +309,10 @@ class Tokenizer(object):
         @param message: The string representation of the message.
         """
         if not isinstance(message, basestring):
-            raise TypeError('cannot tokenize non-string, {}'.format(repr(type(message).__name__)))
+            if strict:
+                raise TypeError('cannot tokenize non-string, {}'.format(repr(type(message).__name__)))
+            else:
+                return []
         message = _converthtmlentities(_unicode(message))
         if self.ignorequotes:
             message = self.quotes_re.sub(" ", message)
@@ -318,7 +321,7 @@ class Tokenizer(object):
             message = [word for word in message if word not in self._stopwords]
         return message
         
-    def tokenize_set(self, messages, verbose=False):
+    def tokenize_set(self, messages, strict=False, verbose=False):
         """
         For each item in the input list, tokenize into a list of strings representing the 
         constituent words of the message.
@@ -329,7 +332,7 @@ class Tokenizer(object):
         @type message: C{str}
         @param message: The string representation of the message.
         """
-        return [self.tokenize(message) for message in tqdm(messages, desc="Tokenizing data.", disable=not(verbose))]
+        return [self.tokenize(message, strict=strict) for message in tqdm(messages, desc="Tokenizing data.", disable=not(verbose))]
             
 
     def emoticons(self, iterable=None, filename=None):
