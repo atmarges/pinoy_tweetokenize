@@ -10,6 +10,7 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 import re
 from os import path
+from tqdm import tqdm
 
 try:
     from itertools import imap
@@ -317,7 +318,7 @@ class Tokenizer(object):
             message = [word for word in message if word not in self._stopwords]
         return message
         
-    def tokenize_set(self, messages):
+    def tokenize_set(self, messages, verbose=False):
         """
         For each item in the input list, tokenize into a list of strings representing the 
         constituent words of the message.
@@ -328,7 +329,7 @@ class Tokenizer(object):
         @type message: C{str}
         @param message: The string representation of the message.
         """
-        return [self.tokenize(message) for message in messages]
+        return [self.tokenize(message) for message in tqdm(messages, desc="Tokenizing data.", disable=not(verbose))]
             
 
     def emoticons(self, iterable=None, filename=None):
