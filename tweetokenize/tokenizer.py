@@ -34,8 +34,6 @@ html_entities_re = re.compile(r"&#?\w+;")
 emoji_ranges = ((u'\U0001f300', u'\U0001f5ff'), (u'\U0001f600', u'\U0001f64f'), (u'\U0001f680', u'\U0001f6c5'),
                 (u'\u2600', u'\u26ff'), (u'\U0001f170', u'\U0001f19a'))
 
-emojis = {}
-
 
 def _converthtmlentities(msg):
     def replace_entities(s):
@@ -59,7 +57,7 @@ def _unicode(word):
     return unicode(word, encoding='utf-8')
 
 
-def _isemoji(s):
+def _isemoji(s, emojis={}):
     return len(s) == len(u'\U0001f4a9') and any(l <= s <= u for l, u in emoji_ranges) or s in emojis
 
 
@@ -279,7 +277,7 @@ class Tokenizer(object):
         while i < len(word):
             # greedily check for emoticons in this word
             for l in range(self._maxlenemo, 0, -1):
-                if word[i:i+l] in self._emoticons or _isemoji(word[i:i+l]):
+                if word[i:i+l] in self._emoticons or _isemoji(word[i:i+l], emojis=self.emojis):
                     possibly_append_and_reset()
                     newwords.append(word[i:i+l])
                     i += l
